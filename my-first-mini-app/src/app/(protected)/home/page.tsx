@@ -2,7 +2,7 @@ import { auth } from '@/auth';
 import { Page } from '@/components/PageLayout';
 import { AffirmationComposer } from '@/components/EtherCast/AffirmationComposer';
 import { AffirmationList } from '@/components/EtherCast/AffirmationList';
-import { Marble, TopBar } from '@worldcoin/mini-apps-ui-kit-react';
+import { TopBar } from '@worldcoin/mini-apps-ui-kit-react';
 
 export default async function Home() {
   const session = await auth();
@@ -13,11 +13,10 @@ export default async function Home() {
         <TopBar
           title="EtherCast"
           endAdornment={
-            <div className="flex items-center gap-2">
+            <div className="flex items-center">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">
                 {session?.user.username}
               </p>
-              <Marble src={session?.user.profilePictureUrl} className="w-10" />
             </div>
           }
         />

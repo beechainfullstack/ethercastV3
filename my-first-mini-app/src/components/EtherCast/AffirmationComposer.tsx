@@ -30,8 +30,11 @@ export const AffirmationComposer = () => {
         }),
       });
 
+      const data = await res.json().catch(() => null);
+
       if (!res.ok) {
-        throw new Error('Failed to cast');
+        console.error('Cast failed:', res.status, data);
+        throw new Error(data?.error || 'Failed to cast');
       }
 
       setStatus('success');

@@ -111,4 +111,5 @@ export const AffirmationComposer = () => {
         </span>
       </div>
     </section>
-  
+  );
+};

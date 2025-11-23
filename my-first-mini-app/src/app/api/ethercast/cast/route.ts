@@ -25,12 +25,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Contract or network not configured' }, { status: 500 });
     }
 
-    const body = await request.json();
-    const { toHandle, message, tag } = body as {
-      toHandle: string | null;
+    const body = (await request.json()) as {
+      toHandle?: string | null;
       message: string;
-      tag: string | null;
+      tag?: string | null;
     };
+
+    const { message, tag } = body;
 
     if (!message || typeof message !== 'string' || !message.trim()) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });

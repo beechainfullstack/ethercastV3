@@ -7,7 +7,7 @@ export default async function Root({
   return (
     <html lang="en">
       <MiniKitProvider>
-        <body className={inter.className}>{children}</body>
+        <body>{children}</body>
       </MiniKitProvider>
     </html>
   );

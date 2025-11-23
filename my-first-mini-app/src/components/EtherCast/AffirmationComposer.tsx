@@ -63,7 +63,7 @@ export const AffirmationComposer = (props: {
   const disabled = status === "sending";
 
   return (
-    <section className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 shadow-xl shadow-zinc-900/60">
+    <section className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 shadow-xl shadow-zinc-900/60 transition-colors duration-200 hover:border-zinc-700">
       <h2 className="mb-2 text-sm font-semibold tracking-wide text-zinc-300">
         Cast Your Affirmation
       </h2>
@@ -80,7 +80,7 @@ export const AffirmationComposer = (props: {
           onChange={(e) => setMessage(e.target.value)}
           rows={3}
           placeholder="Inscribe your intents..."
-          className="w-full resize-none rounded-lg border border-zinc-800 bg-black/40 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none"
+          className="w-full resize-none rounded-lg border border-zinc-800 bg-black/40 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none transition-colors duration-200"
         />
       </div>
 
@@ -88,7 +88,7 @@ export const AffirmationComposer = (props: {
         <Button
           size="lg"
           variant="primary"
-          className="flex-1 bg-zinc-100 text-black hover:bg-white"
+          className="flex-1 bg-zinc-100 text-black hover:bg-white transition-transform transition-colors duration-150 hover:-translate-y-0.5 active:translate-y-0"
           onClick={onCast}
           disabled={disabled || !message.trim()}
         >

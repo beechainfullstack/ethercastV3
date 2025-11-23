@@ -29,7 +29,7 @@ export const AffirmationComposer = (props: {
       // Step 1: Ensure user has a valid World ID proof for this action
       if (!verified) {
         const proofResult = await MiniKit.commandsAsync.verify({
-          action: 'ethercast-cast',
+          action: 'test-action',
           verification_level: VerificationLevel.Device,
         });
 
@@ -37,7 +37,7 @@ export const AffirmationComposer = (props: {
           method: 'POST',
           body: JSON.stringify({
             payload: proofResult.finalPayload,
-            action: 'ethercast-cast',
+            action: 'test-action',
             signal: undefined,
           }),
         }).then((r) => r.json());

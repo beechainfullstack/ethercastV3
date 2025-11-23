@@ -12,6 +12,7 @@ export const AffirmationComposer = () => {
   const [message, setMessage] = useState('');
   const [tag, setTag] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [lastTxHash, setLastTxHash] = useState<string | null>(null);
 
   const onCast = async () => {
     if (!message.trim()) return;
@@ -30,11 +31,17 @@ export const AffirmationComposer = () => {
         }),
       });
 
-      const data = await res.json().catch(() => null);
+      const data = (await res.json().catch(() => null)) as
+        | { txHash?: string; error?: string }
+        | null;
 
       if (!res.ok) {
         console.error('Cast failed:', res.status, data);
         throw new Error(data?.error || 'Failed to cast');
+      }
+
+      if (data?.txHash) {
+        setLastTxHash(data.txHash);
       }
 
       setStatus('success');
@@ -107,11 +114,23 @@ export const AffirmationComposer = () => {
           {status === 'sending' ? 'Casting…' : 'Cast to chain'}
         </Button>
 
-        <span className="text-[10px] text-zinc-600">
-          {status === 'success' && 'Echo saved (locally for now).'}
-          {status === 'error' && 'Something glitched. Try again.'}
-          {status === 'idle' && 'No NFTs. No token. Just a trace.'}
-        </span>
+        <div className="flex flex-col items-end gap-1">
+          <span className="text-[10px] text-zinc-600">
+            {status === 'success' && 'Echo saved (locally for now).'}
+            {status === 'error' && 'Something glitched. Try again.'}
+            {status === 'idle' && 'No NFTs. No token. Just a trace.'}
+          </span>
+          {lastTxHash && (
+            <a
+              href={`https://worldscan.org/tx/${lastTxHash}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[10px] text-zinc-500 underline underline-offset-2"
+            >
+              View on Worldscan
+            </a>
+          )}
+        </div>
       </div>
     </section>
   );

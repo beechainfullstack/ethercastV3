@@ -1,4 +1,8 @@
 import { MiniKitProvider } from "@worldcoin/minikit-js/minikit-provider";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
+
 export default async function Root({
   children,
 }: Readonly<{
@@ -6,9 +10,9 @@ export default async function Root({
 }>) {
   return (
     <html lang="en">
-      <MiniKitProvider>
-        <body>{children}</body>
-      </MiniKitProvider>
+      <body className={inter.className}>
+        <MiniKitProvider>{children}</MiniKitProvider>
+      </body>
     </html>
   );
 }

@@ -10,7 +10,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "compile:contracts": "hardhat compile",
+    "deploy:contracts": "hardhat run scripts/deploy-ethercast.cjs --network localhost",
+    "node:contracts": "hardhat node"
   },
   "dependencies": {
     "@worldcoin/mini-apps-ui-kit-react": "^1.0.2",
@@ -27,14 +30,17 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.2.3",
     "eruda": "^3.4.1",
     "eslint": "^9",
-    "eslint-plugin-react": "^7.37.0",
     "eslint-config-next": "15.2.3",
+    "eslint-plugin-react": "^7.37.0",
+    "hardhat": "^2.22.17",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

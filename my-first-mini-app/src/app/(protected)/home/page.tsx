@@ -1,10 +1,7 @@
 import { auth } from '@/auth';
 import { Page } from '@/components/PageLayout';
-import { Pay } from '@/components/Pay';
-import { Transaction } from '@/components/Transaction';
-import { UserInfo } from '@/components/UserInfo';
-import { Verify } from '@/components/Verify';
-import { ViewPermissions } from '@/components/ViewPermissions';
+import { AffirmationComposer } from '@/components/EtherCast/AffirmationComposer';
+import { AffirmationList } from '@/components/EtherCast/AffirmationList';
 import { Marble, TopBar } from '@worldcoin/mini-apps-ui-kit-react';
 
 export default async function Home() {
@@ -12,25 +9,32 @@ export default async function Home() {
 
   return (
     <>
-      <Page.Header className="p-0">
+      <Page.Header className="p-0 bg-black/95">
         <TopBar
-          title="Home"
+          title="EtherCast"
           endAdornment={
             <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold capitalize">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">
                 {session?.user.username}
               </p>
-              <Marble src={session?.user.profilePictureUrl} className="w-12" />
+              <Marble src={session?.user.profilePictureUrl} className="w-10" />
             </div>
           }
         />
       </Page.Header>
-      <Page.Main className="flex flex-col items-center justify-start gap-4 mb-16">
-        <UserInfo />
-        <Verify />
-        <Pay />
-        <Transaction />
-        <ViewPermissions />
+      <Page.Main className="flex flex-col items-center justify-start gap-6 mb-16 bg-gradient-to-b from-black via-zinc-950 to-black text-zinc-100">
+        <section className="mt-2 w-full max-w-md text-left">
+          <h1 className="mb-1 text-xs font-medium uppercase tracking-[0.22em] text-zinc-500">
+            Minimal on-chain echoes
+          </h1>
+          <p className="text-sm text-zinc-400">
+            Save a hash of what matters. No NFTs, no token — just a public trace of
+            intent.
+          </p>
+        </section>
+
+        <AffirmationComposer />
+        <AffirmationList />
       </Page.Main>
     </>
   );

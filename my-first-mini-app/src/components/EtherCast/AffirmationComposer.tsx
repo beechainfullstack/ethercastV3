@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@worldcoin/mini-apps-ui-kit-react';
+import { MiniKit, VerificationLevel } from '@worldcoin/minikit-js';
 
 /**
  * EtherCast affirmation composer
@@ -18,12 +19,40 @@ export const AffirmationComposer = (props: {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [lastTxHash, setLastTxHash] = useState<string | null>(null);
+  const [verified, setVerified] = useState(false);
 
   const onCast = async () => {
     if (!message.trim()) return;
     setStatus('sending');
 
     try {
+      // Step 1: Ensure user has a valid World ID proof for this action
+      if (!verified) {
+        const proofResult = await MiniKit.commandsAsync.verify({
+          action: 'ethercast-cast',
+          verification_level: VerificationLevel.Device,
+        });
+
+        const verifyRes = await fetch('/api/verify-proof', {
+          method: 'POST',
+          body: JSON.stringify({
+            payload: proofResult.finalPayload,
+            action: 'ethercast-cast',
+            signal: undefined,
+          }),
+        }).then((r) => r.json());
+
+        if (!verifyRes.verifyRes?.success) {
+          console.error('World ID verification failed', verifyRes);
+          setStatus('error');
+          setTimeout(() => setStatus('idle'), 2000);
+          return;
+        }
+
+        setVerified(true);
+      }
+
+      // Step 2: Cast the affirmation on-chain via backend
       const res = await fetch('/api/ethercast/cast', {
         method: 'POST',
         headers: {

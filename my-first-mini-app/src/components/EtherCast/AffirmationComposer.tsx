@@ -1,16 +1,21 @@
-'use client';
+"use client";
 
 import { useState } from 'react';
 import { Button } from '@worldcoin/mini-apps-ui-kit-react';
 
 /**
  * EtherCast affirmation composer
- * For now this only simulates sending to chain; later you can wire it to your API/contract.
+ * Wired to /api/ethercast/cast to send the hash of an affirmation on-chain.
  */
-export const AffirmationComposer = () => {
-  const [toHandle, setToHandle] = useState('');
-  const [message, setMessage] = useState('');
-  const [tag, setTag] = useState('');
+export type AffirmationCast = {
+  text: string;
+  txHash?: string;
+};
+
+export const AffirmationComposer = (props: {
+  onCastSuccess?: (cast: AffirmationCast) => void;
+}) => {
+  const [message, setMessage] = useState("");
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [lastTxHash, setLastTxHash] = useState<string | null>(null);
 
@@ -25,9 +30,7 @@ export const AffirmationComposer = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          toHandle: toHandle || null,
           message: message.trim(),
-          tag: tag || null,
         }),
       });
 
@@ -46,7 +49,9 @@ export const AffirmationComposer = () => {
 
       setStatus('success');
       setTimeout(() => setStatus('idle'), 1500);
-      setMessage('');
+      setMessage("");
+
+      props.onCastSuccess?.({ text: message.trim(), txHash: data?.txHash });
     } catch (e) {
       console.error(e);
       setStatus('error');
@@ -54,7 +59,7 @@ export const AffirmationComposer = () => {
     }
   };
 
-  const disabled = status === 'sending';
+  const disabled = status === "sending";
 
   return (
     <section className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 shadow-xl shadow-zinc-900/60">
@@ -68,38 +73,14 @@ export const AffirmationComposer = () => {
 
       <div className="mb-3 space-y-2">
         <label className="block text-xs uppercase tracking-wide text-zinc-500">
-          To (optional handle)
-        </label>
-        <input
-          value={toHandle}
-          onChange={(e) => setToHandle(e.target.value)}
-          placeholder="@friend, @self, @world"
-          className="w-full rounded-lg border border-zinc-800 bg-black/40 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none"
-        />
-      </div>
-
-      <div className="mb-3 space-y-2">
-        <label className="block text-xs uppercase tracking-wide text-zinc-500">
           Affirmation
         </label>
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           rows={3}
-          placeholder="May your chains be light and your signal clear."
+          placeholder="Whisper something true into the ledger."
           className="w-full resize-none rounded-lg border border-zinc-800 bg-black/40 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none"
-        />
-      </div>
-
-      <div className="mb-4 space-y-2">
-        <label className="block text-xs uppercase tracking-wide text-zinc-500">
-          Tag (optional)
-        </label>
-        <input
-          value={tag}
-          onChange={(e) => setTag(e.target.value)}
-          placeholder="#gratitude, #focus, #returning"
-          className="w-full rounded-lg border border-zinc-800 bg-black/40 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none"
         />
       </div>
 

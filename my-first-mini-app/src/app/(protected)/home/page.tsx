@@ -1,7 +1,6 @@
 import { auth } from '@/auth';
 import { Page } from '@/components/PageLayout';
-import { AffirmationComposer } from '@/components/EtherCast/AffirmationComposer';
-import { AffirmationList } from '@/components/EtherCast/AffirmationList';
+import { EtherCastFeed } from '@/components/EtherCast/Feed';
 import { TopBar } from '@worldcoin/mini-apps-ui-kit-react';
 
 export default async function Home() {
@@ -32,8 +31,7 @@ export default async function Home() {
           </p>
         </section>
 
-        <AffirmationComposer />
-        <AffirmationList />
+        <EtherCastFeed />
       </Page.Main>
     </>
   );

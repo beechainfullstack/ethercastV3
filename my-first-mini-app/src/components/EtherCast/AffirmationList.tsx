@@ -19,7 +19,10 @@ export const AffirmationList = (props: { items: DisplayAffirmation[] }) => {
 
   return (
     <section className="w-full max-w-md space-y-3">
-      {items.map((item, idx) => (
+      <p className="px-1 text-[10px] uppercase tracking-[0.18em] text-zinc-700">
+        Recent casts
+      </p>
+      {items.map((item) => (
         <Fragment key={item.id}>
           <article className="rounded-2xl border border-zinc-900 bg-zinc-950 p-4 transition-transform transition-colors duration-200 hover:-translate-y-0.5 hover:border-zinc-600 hover:bg-zinc-900">
             <p className="text-sm text-zinc-100">{item.text}</p>
@@ -34,11 +37,6 @@ export const AffirmationList = (props: { items: DisplayAffirmation[] }) => {
               </a>
             )}
           </article>
-          {idx === 0 && (
-            <p className="px-1 text-[10px] uppercase tracking-[0.18em] text-zinc-700">
-              Recent casts
-            </p>
-          )}
         </Fragment>
       ))}
     </section>

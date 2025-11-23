@@ -79,7 +79,7 @@ export const AffirmationComposer = (props: {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           rows={3}
-          placeholder="Inscribe your intents..."
+          placeholder="Share your intents..."
           className="w-full resize-none rounded-lg border border-zinc-800 bg-black/40 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none transition-colors duration-200"
         />
       </div>
@@ -99,7 +99,7 @@ export const AffirmationComposer = (props: {
           <span className="text-[10px] text-zinc-600">
             {status === 'success' && 'Affirmation saved (locally for now).'}
             {status === 'error' && 'Something glitched. Try again.'}
-            {status === 'idle' && 'Awaiting your beautiful input...'}
+            {status === 'idle' && 'Awaiting your graceful input...'}
           </span>
           {lastTxHash && (
             <a

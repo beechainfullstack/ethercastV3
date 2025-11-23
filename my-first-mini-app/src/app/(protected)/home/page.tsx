@@ -8,7 +8,7 @@ export default async function Home() {
 
   return (
     <>
-      <Page.Header className="p-0 bg-black/95">
+      <Page.Header className="p-0 bg-black border-b border-zinc-900">
         <TopBar
           title="EtherCast"
           endAdornment={
@@ -20,14 +20,13 @@ export default async function Home() {
           }
         />
       </Page.Header>
-      <Page.Main className="flex flex-col items-center justify-start gap-6 mb-16 bg-gradient-to-b from-black via-zinc-950 to-black text-zinc-100">
+      <Page.Main className="flex flex-col items-center justify-start gap-6 mb-16 bg-black text-zinc-100">
         <section className="mt-2 w-full max-w-md text-left">
           <h1 className="mb-1 text-xs font-medium uppercase tracking-[0.22em] text-zinc-500">
-            Minimal on-chain echoes
+            Invoke Beauty Upon Us  
           </h1>
           <p className="text-sm text-zinc-400">
-            Save a hash of what matters. No NFTs, no token — just a public trace of
-            intent.
+            Inscribe your affirmation to manifest in reality.
           </p>
         </section>
 

@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Button } from '@worldcoin/mini-apps-ui-kit-react';
-import { MiniKit, VerificationLevel } from '@worldcoin/minikit-js';
 
 /**
  * EtherCast affirmation composer
@@ -19,40 +18,13 @@ export const AffirmationComposer = (props: {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [lastTxHash, setLastTxHash] = useState<string | null>(null);
-  const [verified, setVerified] = useState(false);
 
   const onCast = async () => {
     if (!message.trim()) return;
     setStatus('sending');
 
     try {
-      // Step 1: Ensure user has a valid World ID proof for this action
-      if (!verified) {
-        const proofResult = await MiniKit.commandsAsync.verify({
-          action: 'test-action',
-          verification_level: VerificationLevel.Device,
-        });
-
-        const verifyRes = await fetch('/api/verify-proof', {
-          method: 'POST',
-          body: JSON.stringify({
-            payload: proofResult.finalPayload,
-            action: 'test-action',
-            signal: undefined,
-          }),
-        }).then((r) => r.json());
-
-        if (!verifyRes.verifyRes?.success) {
-          console.error('World ID verification failed', verifyRes);
-          setStatus('error');
-          setTimeout(() => setStatus('idle'), 2000);
-          return;
-        }
-
-        setVerified(true);
-      }
-
-      // Step 2: Cast the affirmation on-chain via backend
+      // Cast the affirmation on-chain via backend
       const res = await fetch('/api/ethercast/cast', {
         method: 'POST',
         headers: {
@@ -93,11 +65,10 @@ export const AffirmationComposer = (props: {
   return (
     <section className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 shadow-xl shadow-zinc-900/60">
       <h2 className="mb-2 text-sm font-semibold tracking-wide text-zinc-300">
-        Cast an affirmation
+        Cast Your Affirmation
       </h2>
       <p className="mb-4 text-xs text-zinc-500">
-        Whisper something true into the ledger. A minimal on-chain trace of intent
-        &amp; care.
+        Confess truth upon the infinite machine.
       </p>
 
       <div className="mb-3 space-y-2">
@@ -108,7 +79,7 @@ export const AffirmationComposer = (props: {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           rows={3}
-          placeholder="Whisper something true into the ledger."
+          placeholder="Inscribe your intents..."
           className="w-full resize-none rounded-lg border border-zinc-800 bg-black/40 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none"
         />
       </div>
@@ -121,14 +92,14 @@ export const AffirmationComposer = (props: {
           onClick={onCast}
           disabled={disabled || !message.trim()}
         >
-          {status === 'sending' ? 'Casting…' : 'Cast to chain'}
+          {status === 'sending' ? 'Casting…' : 'Cast to World'}
         </Button>
 
         <div className="flex flex-col items-end gap-1">
           <span className="text-[10px] text-zinc-600">
-            {status === 'success' && 'Echo saved (locally for now).'}
+            {status === 'success' && 'Affirmation saved (locally for now).'}
             {status === 'error' && 'Something glitched. Try again.'}
-            {status === 'idle' && 'No NFTs. No token. Just a trace.'}
+            {status === 'idle' && 'Awaiting your beautiful input...'}
           </span>
           {lastTxHash && (
             <a

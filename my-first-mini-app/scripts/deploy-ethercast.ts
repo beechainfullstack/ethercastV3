@@ -1,6 +1,8 @@
-import { ethers } from "hardhat";
+// @ts-nocheck
+import hre from "hardhat";
 
 async function main() {
+  const { ethers } = hre;
   const [deployer] = await ethers.getSigners();
 
   console.log("Deploying EtherCast with account:", deployer.address);
@@ -8,9 +10,10 @@ async function main() {
   const EtherCast = await ethers.getContractFactory("EtherCast");
   const etherCast = await EtherCast.deploy();
 
-  await etherCast.deployed();
+  await etherCast.waitForDeployment();
 
-  console.log("EtherCast deployed to:", etherCast.address);
+  const address = await etherCast.getAddress();
+  console.log("EtherCast deployed to:", address);
 }
 
 main().catch((error) => {
